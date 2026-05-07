@@ -21,4 +21,19 @@ Content-Type: application/json
 }
 
 ### 4. Eliminar un bar 
-DELETE {{HostAddress}}/api/bares/126
+DELETE {{HostAddress}}/api/bares/8
+
+### 5. Ver categorias 
+
+GET {{HostAddress}}/api/bares/stats
+
+### 6. Crear un bar manualmente (POST)
+POST {{HostAddress}}/api/bares
+Content-Type: application/json
+
+{
+  "nombre": "El Antro de los Devs",
+  "ubicacion": "Barrio Norte, Tucumán",
+  "categoriaOriginal": "Bar Geek",
+  "categoriaSistema": "BaresClasicos"
+}

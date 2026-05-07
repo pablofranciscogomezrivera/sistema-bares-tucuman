@@ -1,4 +1,12 @@
-﻿using BaresTucuman.API.Services;
+﻿using System;
+using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
+using BaresTucuman.API.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace BaresTucuman.API.Workers
 {
@@ -6,19 +14,35 @@ namespace BaresTucuman.API.Workers
     {
         private readonly ILogger<BarSyncWorker> _logger;
         private readonly IServiceProvider _serviceProvider;
+        private readonly double _minutosIntervalo;
 
-        public BarSyncWorker(ILogger<BarSyncWorker> logger, IServiceProvider serviceProvider)
+        public BarSyncWorker(ILogger<BarSyncWorker> logger, IServiceProvider serviceProvider, IConfiguration config)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
+
+            var intervalString = config["SyncWorker: IntervalMinutes"];
+            if (string.IsNullOrWhiteSpace(intervalString))
+            {
+                throw new ArgumentNullException("Falta el intervalo de sincronización en minutos en la configuración");
+            }
+
+            if (!double.TryParse(intervalString, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out _minutosIntervalo))
+            {
+                throw new FormatException($"Valor inválido para 'SyncWorker: IntervalMinutes': '{intervalString}'");
+            }
+
+            if (_minutosIntervalo <= 0)
+            {
+                throw new ArgumentOutOfRangeException("SyncWorker: IntervalMinutes", "El intervalo de sincronización debe ser mayor a cero.");
+            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("El Worker de sincronización de bares ha iniciado.");
 
-            //TimeSpan.FromHours(24).
-            using var timer = new PeriodicTimer(TimeSpan.FromMinutes(1));
+            using var timer = new PeriodicTimer(TimeSpan.FromMinutes(_minutosIntervalo));
 
             try
             {

@@ -12,6 +12,18 @@
     "fuente": "MockData"
   },
   {
+    "nombre": "Peñón del Águila",
+    "ubicacion": "Barrio Sur",
+    "categoria": "Cervecería",
+    "fuente": "MockData"
+  },
+  {
+    "nombre": "Peñón del Águila Barrio Sur",
+    "ubicacion": "Barrio Sur",
+    "categoria": "Cervecería Artesanal",
+    "fuente": "MockData"
+  },
+  {
     "nombre": "Porter Brew House",
     "ubicacion": "San Martín 780",
     "categoria": "Cervecería",
@@ -30,153 +42,15 @@
     "fuente": "MockData"
   },
   {
-    "nombre": "Bar El Jardín",
-    "ubicacion": "Av. Brígido Terán 201",
-    "categoria": "Bar Deportivo",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Rosé",
-    "ubicacion": "Santa Fe 373",
-    "categoria": "Café / Bar",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Midgard Resto Beer House",
-    "ubicacion": "Balcarce 109",
-    "categoria": "Cervecería",
-    "fuente": "MockData"
-  },
-  {
     "nombre": "El Molino",
     "ubicacion": "24 de Septiembre 551",
     "categoria": "Restobar",
     "fuente": "MockData"
   },
   {
-    "nombre": "La Pizzada",
-    "ubicacion": "24 de Septiembre y 25 de Mayo",
-    "categoria": "Pizzería / Bar",
-    "fuente": "MockData"
-  },
-  {
     "nombre": "Oliver Brown Take Away",
     "ubicacion": "San Martín 761",
     "categoria": "Café / Bar",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Sir Harris",
-    "ubicacion": "Laprida 210",
-    "categoria": "Restobar",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "TÓTEM",
-    "ubicacion": "Av. Paz Posse y Honduras",
-    "categoria": "Bar",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "El Bodegón",
-    "ubicacion": "San Miguel de Tucumán",
-    "categoria": "Bodegón / Bar",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Los Naranjos",
-    "ubicacion": "Laprida 35",
-    "categoria": "Bar de Tragos",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Mora Bistró",
-    "ubicacion": "Av. Soldati 440",
-    "categoria": "Bistró / Bar",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "T'ikay",
-    "ubicacion": "Próspero Mena 130",
-    "categoria": "Restobar",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Ohana",
-    "ubicacion": "Frente a Plaza San Martín",
-    "categoria": "Bar",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Hogwarts Music House",
-    "ubicacion": "San Miguel de Tucumán",
-    "categoria": "Bar Temático",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "El Quincho",
-    "ubicacion": "Barrio Sur",
-    "categoria": "Bar",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Endins",
-    "ubicacion": "Buenos Aires 400",
-    "categoria": "Café / Bar",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Mr. Johns & Warhol",
-    "ubicacion": "Av. Aconquija 1700",
-    "categoria": "Pub / Boliche",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Boqueria Alterpoint",
-    "ubicacion": "Yerba Buena",
-    "categoria": "Bar de Vinos",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Peñón del Águila",
-    "ubicacion": "Barrio Sur",
-    "categoria": "Cervecería",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Peñón del Águila Barrio Sur",
-    "ubicacion": "Barrio Sur",
-    "categoria": "Cervecería Artesanal",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "El Clan resto bar",
-    "ubicacion": "San Miguel de Tucumán",
-    "categoria": "Restobar",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Cerveza Norte Bar",
-    "ubicacion": "Capital",
-    "categoria": "Cervecería",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Bingo Tucumán Bar",
-    "ubicacion": "Av. Brígido Terán 250",
-    "categoria": "Bar / Casino",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Florencia Rosello Pastelería",
-    "ubicacion": "Las Piedras y Buenos Aires",
-    "categoria": "Café",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Mora Resto",
-    "ubicacion": "Av. Soldati 440",
-    "categoria": "Restaurante",
     "fuente": "MockData"
   },
   {

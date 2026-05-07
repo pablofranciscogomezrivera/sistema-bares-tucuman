@@ -74,5 +74,40 @@ namespace BaresTucuman.API.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("stats")]
+        public async Task<IActionResult> GetStats()
+        {
+            var stats = await _context.Bares
+                .Where(b => b.IsActive)
+                .GroupBy(b => b.CategoriaAMostrar)
+                .Select(g => new
+                {
+                    Categoria = g.Key.ToString(), 
+                    Cantidad = g.Count()
+                })
+                .OrderByDescending(x => x.Cantidad)
+                .ToListAsync();
+
+            return Ok(stats);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateBar([FromBody] Bar nuevoBar)
+        {
+            nuevoBar.IsActive = true;
+            nuevoBar.ScrapedAt = DateTime.UtcNow;
+
+            if (string.IsNullOrEmpty(nuevoBar.Fuente))
+                nuevoBar.Fuente = "Carga Manual";
+
+            if (string.IsNullOrEmpty(nuevoBar.AiDescription))
+                nuevoBar.AiDescription = "Descripción pendiente de generación.";
+
+            _context.Bares.Add(nuevoBar);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetBar), new { id = nuevoBar.Id }, nuevoBar);
+        }
     }
 }
