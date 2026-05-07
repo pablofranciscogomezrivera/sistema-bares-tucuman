@@ -1,14 +1,33 @@
 @HostAddress = https://localhost:44312
 
-### 1. Obtener todos los bares
-GET {{HostAddress}}/api/bares
+### 1. Obtener datos mockeados 
+GET {{HostAddress}}/api/bares/mock
 Accept: application/json
 
-### 2. Obtener un bar específico 
+### 2. Obtener todos los bares (Listado con Paginación)
+GET {{HostAddress}}/api/bares?page=2&pageSize=5
+Accept: application/json
+
+### 3. Obtener un bar específico por ID
 GET {{HostAddress}}/api/bares/126
 Accept: application/json
 
-### 3. Editar un bar (PUT)
+### 4. Ver estadísticas de categorías agrupadas
+GET {{HostAddress}}/api/bares/stats
+Accept: application/json
+
+### 5. Crear un bar manualmente (POST)
+POST {{HostAddress}}/api/bares
+Content-Type: application/json
+
+{
+  "nombre": "",
+  "ubicacion": "Barrio Norte, Tucumán",
+  "categoria": "Bar Geek",
+  "categoriaAMostrar": "BaresClasicos"
+}
+
+### 6. Editar un bar existente 
 PUT {{HostAddress}}/api/bares/126
 Content-Type: application/json
 
@@ -17,23 +36,16 @@ Content-Type: application/json
   "nombre": "El Nuevo Point (Editado por HTTP)",
   "ubicacion": "Av. Perón 1500, Yerba Buena",
   "categoria": "Bar VIP",
-  "aiDescription": "Esta descripción la modifiqué a mano para probar el endpoint PUT de mi API."
+  "aiDescription": "Esta descripción la modifiqué a mano para probar el endpoint PUT."
 }
 
-### 4. Eliminar un bar 
+### 7. Eliminar un bar 
 DELETE {{HostAddress}}/api/bares/8
 
-### 5. Ver categorias 
+### 8. Disparar sincronización manual 
+POST {{HostAddress}}/api/bares/sync
+Accept: application/json
 
-GET {{HostAddress}}/api/bares/stats
-
-### 6. Crear un bar manualmente (POST)
-POST {{HostAddress}}/api/bares
-Content-Type: application/json
-
-{
-  "nombre": "El Antro de los Devs",
-  "ubicacion": "Barrio Norte, Tucumán",
-  "categoriaOriginal": "Bar Geek",
-  "categoriaSistema": "BaresClasicos"
-}
+### 9. Ver logs del historial de sincronización
+GET {{HostAddress}}/api/bares/sync/logs
+Accept: application/json

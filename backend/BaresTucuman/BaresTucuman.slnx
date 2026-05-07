@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="BaresTucuman.API/BaresTucuman.API.csproj" />
+  <Project Path="BaresTucuman.Tests/BaresTucuman.Tests.csproj" />
 </Solution>

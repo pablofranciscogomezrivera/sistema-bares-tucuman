@@ -21,7 +21,7 @@ namespace BaresTucuman.API.Workers
             _logger = logger;
             _serviceProvider = serviceProvider;
 
-            var intervalString = config["SyncWorker: IntervalMinutes"];
+            var intervalString = config["SyncWorker:IntervalMinutes"];
             if (string.IsNullOrWhiteSpace(intervalString))
             {
                 throw new ArgumentNullException("Falta el intervalo de sincronización en minutos en la configuración");
@@ -34,7 +34,7 @@ namespace BaresTucuman.API.Workers
 
             if (_minutosIntervalo <= 0)
             {
-                throw new ArgumentOutOfRangeException("SyncWorker: IntervalMinutes", "El intervalo de sincronización debe ser mayor a cero.");
+                throw new ArgumentOutOfRangeException("SyncWorker:IntervalMinutes", "El intervalo de sincronización debe ser mayor a cero.");
             }
         }
 
@@ -66,7 +66,7 @@ namespace BaresTucuman.API.Workers
                 _logger.LogInformation("Iniciando sincronización de datos externa...");
 
                 using var scope = _serviceProvider.CreateScope();
-                var syncService = scope.ServiceProvider.GetRequiredService<BarSyncService>();
+                var syncService = scope.ServiceProvider.GetRequiredService<IBarSyncService>();
 
                 int agregados = await syncService.SyncBaresAsync();
 

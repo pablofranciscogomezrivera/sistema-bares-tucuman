@@ -1,6 +1,9 @@
 ﻿using BaresTucuman.API.Domain.Entities;
 using BaresTucuman.API.Domain.Interfaces;
 using BaresTucuman.API.Infraestructure.Data;
+using BaresTucuman.API.Application.DTOs;
+using BaresTucuman.API.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,12 +14,14 @@ namespace BaresTucuman.API.Controllers
     public class BaresController : ControllerBase
     {
         private readonly IBarProvider _barProvider;
-        private readonly AppDbContext _context; 
+        private readonly AppDbContext _context;
+        private readonly IBarSyncService _syncService;
 
-        public BaresController(IBarProvider barProvider, AppDbContext context)
+        public BaresController(IBarProvider barProvider, AppDbContext context, IBarSyncService syncService)
         {
             _barProvider = barProvider;
             _context = context;
+            _syncService = syncService;
         }
 
         [HttpGet("mock")]
@@ -28,13 +33,24 @@ namespace BaresTucuman.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBares()
+        public async Task<IActionResult> GetBares([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var bares = await _context.Bares
-                                      .Where(b => b.IsActive)
-                                      .OrderByDescending(b => b.ScrapedAt)
-                                      .ToListAsync();
-            return Ok(bares);
+            var query = _context.Bares.Where(b => b.IsActive).OrderByDescending(b => b.ScrapedAt);
+
+            var total = await query.CountAsync();
+            var bares = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return Ok(new
+            {
+                total,
+                page,
+                pageSize,
+                totalPages = (int)Math.Ceiling(total / (double)pageSize),
+                data = bares
+            });
         }
 
         [HttpGet("{id}")]
@@ -46,21 +62,31 @@ namespace BaresTucuman.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBar(int id, [FromBody] Bar barActualizado)
+        public async Task<IActionResult> UpdateBar(
+            int id,
+            [FromBody] ActualizarBarDto dto,
+            [FromServices] IValidator<ActualizarBarDto> validator)
         {
-            if (id != barActualizado.Id) return BadRequest("El ID de la URL no coincide con el cuerpo de la petición.");
+            var validationResult = await validator.ValidateAsync(dto);
+            if (!validationResult.IsValid)
+            {
+                var errores = validationResult.Errors.Select(e => new { Campo = e.PropertyName, Error = e.ErrorMessage });
+                return BadRequest(errores);
+            }
 
             var barExistente = await _context.Bares.FindAsync(id);
-            if (barExistente == null || !barExistente.IsActive) return NotFound();
+            if (barExistente == null || !barExistente.IsActive)
+                return NotFound($"No se encontró el bar activo con ID {id}");
 
-            barExistente.Nombre = barActualizado.Nombre;
-            barExistente.Ubicacion = barActualizado.Ubicacion;
-            barExistente.Categoria = barActualizado.Categoria;
-            barExistente.AiDescription = barActualizado.AiDescription;
+            barExistente.Nombre = dto.Nombre;
+            barExistente.Ubicacion = dto.Ubicacion;
+            barExistente.Categoria = dto.Categoria;
+            barExistente.CategoriaAMostrar = dto.CategoriaAMostrar;
+            barExistente.AiDescription = dto.AiDescription;
 
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return NoContent(); 
         }
 
         [HttpDelete("{id}")]
@@ -93,21 +119,52 @@ namespace BaresTucuman.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBar([FromBody] Bar nuevoBar)
+        public async Task<IActionResult> CreateBar(
+            [FromBody] CrearBarDto dto,
+            [FromServices] IValidator<CrearBarDto> validator)
         {
-            nuevoBar.IsActive = true;
-            nuevoBar.ScrapedAt = DateTime.UtcNow;
+            var validationResult = await validator.ValidateAsync(dto);
 
-            if (string.IsNullOrEmpty(nuevoBar.Fuente))
-                nuevoBar.Fuente = "Carga Manual";
+            if (!validationResult.IsValid)
+            {
+                var errores = validationResult.Errors.Select(e => new { Campo = e.PropertyName, Error = e.ErrorMessage });
+                return BadRequest(errores);
+            }
 
-            if (string.IsNullOrEmpty(nuevoBar.AiDescription))
-                nuevoBar.AiDescription = "Descripción pendiente de generación.";
+            var nuevoBar = new Bar
+            {
+                Nombre = dto.Nombre,
+                Ubicacion = dto.Ubicacion,
+                Categoria = dto.Categoria,
+                CategoriaAMostrar = dto.CategoriaAMostrar,
+                IsActive = true,
+                ScrapedAt = DateTime.UtcNow,
+                Fuente = "Carga Manual",
+                AiDescription = "Descripción pendiente de generación."
+            };
 
             _context.Bares.Add(nuevoBar);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetBar), new { id = nuevoBar.Id }, nuevoBar);
         }
+
+        [HttpPost("sync")]
+        public async Task<IActionResult> TriggerSync()
+        {
+            int agregados = await _syncService.SyncBaresAsync();
+            return Ok(new { message = "Sincronización completada.", baresAgregados = agregados });
+        }
+
+        [HttpGet("sync/logs")]
+        public async Task<IActionResult> GetSyncLogs()
+        {
+            var logs = await _context.SyncLogs
+                .OrderByDescending(l => l.Timestamp)
+                .Take(20)
+                .ToListAsync();
+            return Ok(logs);
+        }
+
     }
 }

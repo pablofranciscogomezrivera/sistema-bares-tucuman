@@ -3,8 +3,10 @@ using BaresTucuman.API.Infraestructure.Data;
 using BaresTucuman.API.Infraestructure.Providers;
 using BaresTucuman.API.Services;
 using BaresTucuman.API.Workers;
+using BaresTucuman.API.Application.Validators;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,11 +19,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IBarSyncService, BarSyncService>(); 
 builder.Services.AddHostedService<BarSyncWorker>();
+builder.Services.AddHttpClient();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
+builder.Services.AddValidatorsFromAssemblyContaining<CrearBarDtoValidator>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>

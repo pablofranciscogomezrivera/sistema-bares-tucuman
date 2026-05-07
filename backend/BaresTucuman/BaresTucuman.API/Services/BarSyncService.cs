@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
+using BaresTucuman.API.Application.Helpers;
 using BaresTucuman.API.Domain;
 using BaresTucuman.API.Domain.Entities;
 using BaresTucuman.API.Domain.Enums;
@@ -50,19 +51,19 @@ namespace BaresTucuman.API.Services
 
                     if (!existe)
                     {
-                        existe = baresEnDb.Any(b => NombresSonSimilares(b.Nombre, barExterno.Nombre));
+                        existe = baresEnDb.Any(b => BarHelper.NombresSonSimilares(b.Nombre, barExterno.Nombre));
                     }
 
                     if (!existe)
                     {
                         var descripcionAi = await GenerarDescripcionConIA(barExterno.Nombre, barExterno.Ubicacion);
-
+                        var categoriaNormalizada = await ClasificarConIA(barExterno.Nombre, barExterno.Categoria);
                         var barNuevo = new Bar
                         {
                             Nombre = barExterno.Nombre,
                             Ubicacion = barExterno.Ubicacion,
                             Categoria = barExterno.Categoria,
-                            CategoriaAMostrar = MapearCategoria(barExterno.Categoria),
+                            CategoriaAMostrar = categoriaNormalizada,
                             Fuente = barExterno.Fuente,
                             AiDescription = descripcionAi,
                             ScrapedAt = DateTime.UtcNow,
@@ -134,18 +135,6 @@ namespace BaresTucuman.API.Services
             }
         }
 
-        private TipoBar MapearCategoria(string rawCategory)
-        {
-            var texto = rawCategory.ToLower();
-
-            if (texto.Contains("cervece") || texto.Contains("brew")) return TipoBar.Cervecerias;
-            if (texto.Contains("cafe") || texto.Contains("pastelería")) return TipoBar.Cafeterias;
-            if (texto.Contains("resto") || texto.Contains("parrilla") || texto.Contains("comida")) return TipoBar.Restobares;
-            if (texto.Contains("pub") || texto.Contains("disco") || texto.Contains("boliche")) return TipoBar.Pubs;
-
-            return TipoBar.BaresClasicos;
-        }
-
         private async Task<bool> EsDuplicadoConIA(string nombreNuevo, string ubicacionNueva, List<Bar> baresExistentes)
         {
             if (!baresExistentes.Any()) return false; 
@@ -184,21 +173,39 @@ namespace BaresTucuman.API.Services
             }
         }
 
-        private bool NombresSonSimilares(string nombre1, string nombre2)
+        private async Task<TipoBar> ClasificarConIA(string nombre, string categoriaOriginal)
         {
-            var palabras1 = nombre1.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var palabras2 = nombre2.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            try
+            {
+                var categoriasPosibles = string.Join(", ", Enum.GetNames(typeof(TipoBar)));
 
-            var ignorar = new HashSet<string> { "el", "la", "los", "las", "bar", "resto", "restobar", "tucuman", "tucumán", "pub" };
+                var prompt = $"Sos un clasificador de establecimientos. Dado el nombre '{nombre}' y su descripción original '{categoriaOriginal}', " +
+                             $"clasificalo en UNA de estas categorías exactas: {categoriasPosibles}. " +
+                             $"Respondé ÚNICAMENTE con el nombre de la categoría, sin texto adicional ni puntos.";
 
-            var claves1 = palabras1.Where(p => !ignorar.Contains(p)).ToList();
-            var claves2 = palabras2.Where(p => !ignorar.Contains(p)).ToList();
+                var requestBody = new { contents = new[] { new { parts = new[] { new { text = prompt } } } } };
+                var content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
 
-            if (!claves1.Any() || !claves2.Any()) return nombre1.ToLower() == nombre2.ToLower();
+                var url = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={_geminiApiKey}";
+                var response = await _httpClient.PostAsync(url, content);
 
-            var interseccion = claves1.Intersect(claves2).Count();
+                if (!response.IsSuccessStatusCode) return BarHelper.MapearCategoria(categoriaOriginal);
 
-            return interseccion >= 1;
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(jsonResponse);
+                var respuesta = doc.RootElement.GetProperty("candidates")[0].GetProperty("content").GetProperty("parts")[0].GetProperty("text").GetString()?.Trim();
+
+                if (Enum.TryParse<TipoBar>(respuesta, true, out var resultado))
+                {
+                    return resultado;
+                }
+
+                return BarHelper.MapearCategoria(categoriaOriginal);
+            }
+            catch
+            {
+                return BarHelper.MapearCategoria(categoriaOriginal);
+            }
         }
     }
 }
