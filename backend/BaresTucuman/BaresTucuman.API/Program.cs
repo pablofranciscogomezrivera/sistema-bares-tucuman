@@ -28,10 +28,12 @@ builder.Services.AddControllers()
 builder.Services.AddValidatorsFromAssemblyContaining<CrearBarDtoValidator>();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
-        policy.WithOrigins("http://localhost:3000")
+    options.AddPolicy("PermitirFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
               .AllowAnyHeader()
-              .AllowAnyMethod());
+              .AllowAnyMethod();
+    });
 });
 
 var app = builder.Build();
@@ -42,9 +44,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseCors("AllowFrontend");
-
 app.UseHttpsRedirection();
+app.UseCors("PermitirFrontend");
 
 app.UseAuthorization();
 
