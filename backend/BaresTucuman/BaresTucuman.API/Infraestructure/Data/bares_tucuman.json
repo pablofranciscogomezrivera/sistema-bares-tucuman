@@ -1,0 +1,182 @@
+[
+  {
+    "nombre": "Bar Irlanda Tucumán",
+    "ubicacion": "Catamarca 380",
+    "categoria": "Bar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Irlanda Bar",
+    "ubicacion": "Catamarca 380",
+    "categoria": "Pub",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Porter Brew House",
+    "ubicacion": "San Martín 780",
+    "categoria": "Cervecería",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Santos Discépolo",
+    "ubicacion": "La Rioja 219",
+    "categoria": "Centro Cultural / Bar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Bar America",
+    "ubicacion": "Santiago del Estero 1064",
+    "categoria": "Bar / Restaurante",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Bar El Jardín",
+    "ubicacion": "Av. Brígido Terán 201",
+    "categoria": "Bar Deportivo",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Rosé",
+    "ubicacion": "Santa Fe 373",
+    "categoria": "Café / Bar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Midgard Resto Beer House",
+    "ubicacion": "Balcarce 109",
+    "categoria": "Cervecería",
+    "source": "MockData"
+  },
+  {
+    "nombre": "El Molino",
+    "ubicacion": "24 de Septiembre 551",
+    "categoria": "Restobar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "La Pizzada",
+    "ubicacion": "24 de Septiembre y 25 de Mayo",
+    "categoria": "Pizzería / Bar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Oliver Brown Take Away",
+    "ubicacion": "San Martín 761",
+    "categoria": "Café / Bar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Sir Harris",
+    "ubicacion": "Laprida 210",
+    "categoria": "Restobar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "TÓTEM",
+    "ubicacion": "Av. Paz Posse y Honduras",
+    "categoria": "Bar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "El Bodegón",
+    "ubicacion": "San Miguel de Tucumán",
+    "categoria": "Bodegón / Bar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Los Naranjos",
+    "ubicacion": "Laprida 35",
+    "categoria": "Bar de Tragos",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Mora Bistró",
+    "ubicacion": "Av. Soldati 440",
+    "categoria": "Bistró / Bar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "T'ikay",
+    "ubicacion": "Próspero Mena 130",
+    "categoria": "Restobar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Ohana",
+    "ubicacion": "Frente a Plaza San Martín",
+    "categoria": "Bar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Hogwarts Music House",
+    "ubicacion": "San Miguel de Tucumán",
+    "categoria": "Bar Temático",
+    "source": "MockData"
+  },
+  {
+    "nombre": "El Quincho",
+    "ubicacion": "Barrio Sur",
+    "categoria": "Bar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Endins",
+    "ubicacion": "Buenos Aires 400",
+    "categoria": "Café / Bar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Mr. Johns & Warhol",
+    "ubicacion": "Av. Aconquija 1700",
+    "categoria": "Pub / Boliche",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Boqueria Alterpoint",
+    "ubicacion": "Yerba Buena",
+    "categoria": "Bar de Vinos",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Peñón del Águila",
+    "ubicacion": "Barrio Sur",
+    "categoria": "Cervecería",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Peñón del Águila Barrio Sur",
+    "ubicacion": "Barrio Sur",
+    "categoria": "Cervecería Artesanal",
+    "source": "MockData"
+  },
+  {
+    "nombre": "El Clan resto bar",
+    "ubicacion": "San Miguel de Tucumán",
+    "categoria": "Restobar",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Cerveza Norte Bar",
+    "ubicacion": "Capital",
+    "categoria": "Cervecería",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Bingo Tucumán Bar",
+    "ubicacion": "Av. Brígido Terán 250",
+    "categoria": "Bar / Casino",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Florencia Rosello Pastelería",
+    "ubicacion": "Las Piedras y Buenos Aires",
+    "categoria": "Café",
+    "source": "MockData"
+  },
+  {
+    "nombre": "Mora Resto",
+    "ubicacion": "Av. Soldati 440",
+    "categoria": "Restaurante",
+    "source": "MockData"
+  }
+]

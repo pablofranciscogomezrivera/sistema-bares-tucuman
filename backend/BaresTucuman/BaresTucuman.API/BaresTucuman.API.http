@@ -1,0 +1,6 @@
+@BaresTucuman.API_HostAddress = http://localhost:5079
+
+GET {{BaresTucuman.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
