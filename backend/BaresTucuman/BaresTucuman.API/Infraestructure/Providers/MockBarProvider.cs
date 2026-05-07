@@ -6,22 +6,20 @@ namespace BaresTucuman.API.Infraestructure.Providers
 {   
     public class MockBarProvider : IBarProvider
     {
-        public async Task<List<Bar>> GetPlacesAsync()
+        public async Task<List<Bar>> GetBaresAsync()
         {
-            // Lee el archivo que configuraste para que se copie al compilar
-            var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "Infrastructure", "Data", "bares_tucuman.json");
+            var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "Infraestructure", "Data", "bares_tucuman.json");
 
             if (!File.Exists(jsonPath))
-                return new List<Bar>(); // Si no lo encuentra, devuelve lista vacía para no romper
+                return new List<Bar>(); 
 
             var jsonString = await File.ReadAllTextAsync(jsonPath);
 
-            // Opciones para que no le importen las mayúsculas/minúsculas en los nombres de las propiedades
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            var places = JsonSerializer.Deserialize<List<Bar>>(jsonString, options);
+            var bares = JsonSerializer.Deserialize<List<Bar>>(jsonString, options);
 
-            return places ?? new List<Bar>();
+            return bares ?? new List<Bar>();
         }
     }
 }

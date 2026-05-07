@@ -1,6 +1,24 @@
-@BaresTucuman.API_HostAddress = http://localhost:5079
+@HostAddress = https://localhost:44312
 
-GET {{BaresTucuman.API_HostAddress}}/weatherforecast/
+### 1. Obtener todos los bares
+GET {{HostAddress}}/api/bares
 Accept: application/json
 
-###
+### 2. Obtener un bar específico 
+GET {{HostAddress}}/api/bares/126
+Accept: application/json
+
+### 3. Editar un bar (PUT)
+PUT {{HostAddress}}/api/bares/126
+Content-Type: application/json
+
+{
+  "id": 126,
+  "nombre": "El Nuevo Point (Editado por HTTP)",
+  "ubicacion": "Av. Perón 1500, Yerba Buena",
+  "categoria": "Bar VIP",
+  "aiDescription": "Esta descripción la modifiqué a mano para probar el endpoint PUT de mi API."
+}
+
+### 4. Eliminar un bar 
+DELETE {{HostAddress}}/api/bares/126

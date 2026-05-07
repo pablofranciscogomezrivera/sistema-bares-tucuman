@@ -5,7 +5,7 @@ namespace BaresTucuman.API.Domain.Interfaces
     
     public interface IBarProvider
     {
-        Task<List<Bar>> GetPlacesAsync();
+        Task<List<Bar>> GetBaresAsync();
     }
     
 }
