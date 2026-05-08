@@ -7,4 +7,6 @@ const API = axios.create({
 export const getBares = (page = 1, pageSize = 6) =>
   API.get('/', { params: { page, pageSize } });
 
+export const getStats = () => API.get('/stats');
+
 export default API;
