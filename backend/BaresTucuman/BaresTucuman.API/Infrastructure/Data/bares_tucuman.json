@@ -13,13 +13,13 @@
   },
   {
     "nombre": "Peñón del Águila",
-    "ubicacion": "Barrio Sur",
+    "ubicacion": "San Lorenzo 400, Barrio Sur",
     "categoria": "Cervecería",
     "fuente": "MockData"
   },
   {
     "nombre": "Peñón del Águila Barrio Sur",
-    "ubicacion": "Barrio Sur",
+    "ubicacion": "San Lorenzo 400",
     "categoria": "Cervecería Artesanal",
     "fuente": "MockData"
   },
@@ -30,33 +30,21 @@
     "fuente": "MockData"
   },
   {
-    "nombre": "Santos Discépolo",
-    "ubicacion": "La Rioja 219",
-    "categoria": "Centro Cultural / Bar",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "Bar America",
-    "ubicacion": "Santiago del Estero 1064",
-    "categoria": "Bar / Restaurante",
-    "fuente": "MockData"
-  },
-  {
-    "nombre": "El Molino",
-    "ubicacion": "24 de Septiembre 551",
+    "nombre": "Refugio Patagonia",
+    "ubicacion": "Santa Fe 750",
     "categoria": "Restobar",
     "fuente": "MockData"
   },
   {
-    "nombre": "Oliver Brown Take Away",
-    "ubicacion": "San Martín 761",
-    "categoria": "Café / Bar",
+    "nombre": "Joao Bar",
+    "ubicacion": "General Paz 516",
+    "categoria": "Restobar",
     "fuente": "MockData"
   },
   {
-    "nombre": "El Nuevo Point",
-    "ubicacion": "Av. Perón 1500, Yerba Buena",
-    "categoria": "Bar",
+    "nombre": "Mr. John's",
+    "ubicacion": "25 de Mayo 410",
+    "categoria": "Pub",
     "fuente": "MockData"
   }
 ]

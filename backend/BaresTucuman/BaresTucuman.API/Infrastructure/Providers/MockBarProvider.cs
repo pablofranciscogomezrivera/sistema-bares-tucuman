@@ -6,12 +6,22 @@ namespace BaresTucuman.API.Infraestructure.Providers
 {   
     public class MockBarProvider : IBarProvider
     {
+        private readonly IWebHostEnvironment _env;
+        public MockBarProvider(IWebHostEnvironment env)
+        {
+            _env = env;
+        }
         public async Task<List<Bar>> GetBaresAsync()
         {
-            var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "Infraestructure", "Data", "bares_tucuman.json");
-
+            var jsonPath = Path.Combine(_env.ContentRootPath, "Infrastructure", "Data", "bares_tucuman.json");
             if (!File.Exists(jsonPath))
-                return new List<Bar>(); 
+            {
+                jsonPath = Path.Combine(_env.ContentRootPath, "Infraestructure", "Data", "bares_tucuman.json");
+            }
+            if (!File.Exists(jsonPath))
+            {
+                throw new FileNotFoundException($"ERROR CRÍTICO: No se encontró el archivo JSON en: {jsonPath}");
+            }
 
             var jsonString = await File.ReadAllTextAsync(jsonPath);
 
