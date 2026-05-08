@@ -111,12 +111,12 @@ namespace BaresTucuman.API.Services
                 var url = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={_geminiApiKey}";
                 var response = await _httpClient.PostAsync(url, content);
 
-                //if (!response.IsSuccessStatusCode) return "Descripción no disponible momentáneamente.";
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorJson = await response.Content.ReadAsStringAsync();
-                    return $"Error API: {response.StatusCode} - {errorJson}";
-                }
+                if (!response.IsSuccessStatusCode) return "Descripción no disponible momentáneamente.";
+                //if (!response.IsSuccessStatusCode)
+                //{
+                //    var errorJson = await response.Content.ReadAsStringAsync();
+                //    return $"Error API: {response.StatusCode} - {errorJson}";
+                //}
 
                 var jsonResponse = await response.Content.ReadAsStringAsync();
                 using var doc = JsonDocument.Parse(jsonResponse);

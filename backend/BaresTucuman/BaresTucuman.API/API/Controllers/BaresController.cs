@@ -1,7 +1,8 @@
-﻿using BaresTucuman.API.Domain.Entities;
+﻿using BaresTucuman.API.Application.DTOs;
+using BaresTucuman.API.Application.Helpers;
+using BaresTucuman.API.Domain.Entities;
 using BaresTucuman.API.Domain.Interfaces;
 using BaresTucuman.API.Infraestructure.Data;
-using BaresTucuman.API.Application.DTOs;
 using BaresTucuman.API.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -129,6 +130,14 @@ namespace BaresTucuman.API.Controllers
             {
                 var errores = validationResult.Errors.Select(e => new { Campo = e.PropertyName, Error = e.ErrorMessage });
                 return BadRequest(errores);
+            }
+
+            var baresExistentes = await _context.Bares.Where(b => b.IsActive).ToListAsync();
+            bool esDuplicado = baresExistentes.Any(b => BarHelper.NombresSonSimilares(b.Nombre, dto.Nombre));
+
+            if (esDuplicado)
+            {
+                return BadRequest("El bar que intentas registrar ya existe o tiene un nombre muy similar a uno activo.");
             }
 
             var nuevoBar = new Bar

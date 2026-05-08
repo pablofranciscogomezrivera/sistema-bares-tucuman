@@ -1,6 +1,6 @@
-import { FiRefreshCw, FiClock } from 'react-icons/fi';
+import { FiRefreshCw, FiClock, FiPieChart } from 'react-icons/fi';
 
-export default function Navbar({ onSync, onShowLogs, syncing }) {
+export default function Navbar({ onSync, onShowLogs, syncing, onToggleDashboard, showDashboard }) {
   return (
     <nav className="navbar navbar-expand navbar-dark sticky-top" id="main-navbar">
       <div className="container-fluid px-4">
@@ -9,6 +9,16 @@ export default function Navbar({ onSync, onShowLogs, syncing }) {
           Bares Tucuman
         </a>
         <div className="d-flex align-items-center gap-2">
+          
+          <button
+            className={`btn btn-nav ${showDashboard ? 'btn-nav-accent' : 'btn-nav-outline'}`}
+            onClick={onToggleDashboard}
+            title="Alternar Dashboard"
+          >
+            <FiPieChart size={15} className="me-1" />
+            <span className="d-none d-sm-inline">Dashboard</span>
+          </button>
+
           <button
             className="btn btn-nav btn-nav-outline"
             onClick={onShowLogs}
@@ -18,6 +28,7 @@ export default function Navbar({ onSync, onShowLogs, syncing }) {
             <FiClock size={15} className="me-1" />
             <span className="d-none d-sm-inline">Historial</span>
           </button>
+          
           <button
             className="btn btn-nav btn-nav-accent"
             onClick={onSync}

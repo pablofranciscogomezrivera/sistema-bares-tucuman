@@ -1,26 +1,21 @@
 import { FiEdit2, FiTrash2, FiMapPin } from 'react-icons/fi';
 import { BsRobot } from 'react-icons/bs';
 
-const CATEGORY_COLORS = {
-  Restobares: 'badge-cat-primary',
-  Bares: 'badge-cat-success',
-  'Cervecerías': 'badge-cat-warning',
-  Pubs: 'badge-cat-info',
-  Restaurantes: 'badge-cat-danger',
-};
-
 export default function BarCard({ bar, onEdit, onDelete }) {
-  const badgeClass = CATEGORY_COLORS[bar.categoriaAMostrar] || 'badge-cat-default';
-
   return (
     <div className="card bar-card mb-3" id={`bar-card-${bar.id}`}>
       <div className="row g-0">
-        <div className="col-md-8">
+        <div className="col-12">
           <div className="card-body d-flex flex-column h-100 py-3">
             <div className="d-flex justify-content-between align-items-start mb-2">
-              <span className={`badge ${badgeClass} text-uppercase`}>
+              
+              <span 
+                className="text-secondary fw-bold text-uppercase" 
+                style={{ fontSize: '0.75rem', letterSpacing: '0.5px' }}
+              >
                 {bar.categoriaAMostrar}
               </span>
+              
               <div className="bar-actions">
                 <button className="btn btn-sm btn-outline-secondary" title="Editar" onClick={() => onEdit(bar)} id={`btn-edit-${bar.id}`}>
                   <FiEdit2 size={13} />

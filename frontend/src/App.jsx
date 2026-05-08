@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar';
 import BarList from './components/BarList';
 import BarModal from './components/BarModal';
 import LogsModal from './components/LogsModal';
+import DeleteConfirmModal from './components/DeleteConfirmModal';
 import { getBares, getStats, createBar, updateBar, deleteBar, triggerSync, getSyncLogs } from './api/baresApi';
 import './index.css';
 
@@ -21,9 +22,14 @@ function App() {
   const [syncing, setSyncing] = useState(false);
   const [showBarModal, setShowBarModal] = useState(false);
   const [showLogsModal, setShowLogsModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [barToDelete, setBarToDelete] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+  const [showDashboard, setShowDashboard] = useState(false);
   const [editingBar, setEditingBar] = useState(null);
   const [lastSync, setLastSync] = useState(null);
   const [toast, setToast] = useState(null);
+  
 
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
@@ -117,19 +123,27 @@ function App() {
     }
   };
 
-  const handleDeleteBar = async (bar) => {
-    if (!window.confirm(`Eliminar "${bar.nombre}"?`)) return;
+  const handleDeleteRequest = (bar) => {
+    setBarToDelete(bar);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async (bar) => {
+    setDeleting(true);
     try {
       await deleteBar(bar.id);
       showToast('Bar eliminado correctamente');
+      setShowDeleteModal(false);
+      setBarToDelete(null);
       fetchBares(page);
       fetchStats();
     } catch (err) {
       console.error('Delete error:', err);
       showToast('Error al eliminar el bar', 'danger');
+    } finally {
+      setDeleting(false);
     }
   };
-
   const handleSync = async () => {
     setSyncing(true);
     try {
@@ -160,15 +174,19 @@ function App() {
         onSync={handleSync}
         onShowLogs={() => setShowLogsModal(true)}
         syncing={syncing}
+        onToggleDashboard={() => setShowDashboard(!showDashboard)}
+        showDashboard={showDashboard}
       />
 
       <main className="main-content">
-        <Dashboard
-          stats={stats}
-          totalBares={totalBares}
-          lastSync={lastSync}
-          loading={loadingStats}
-        />
+        {showDashboard && (
+          <Dashboard
+            stats={stats}
+            totalBares={totalBares}
+            lastSync={lastSync}
+            loading={loadingStats}
+          />
+        )}
 
         <section className="catalog-section" id="catalog">
           <div className="container-fluid px-4">
@@ -189,7 +207,7 @@ function App() {
                   totalPages={totalPages}
                   onPageChange={(p) => fetchBares(p)}
                   onEdit={handleEdit}
-                  onDelete={handleDeleteBar}
+                  onDelete={handleDeleteRequest}
                   loading={loading}
                 />
               </div>
@@ -201,7 +219,7 @@ function App() {
       <footer className="app-footer" id="app-footer">
         <div className="container-fluid px-4 text-center">
           <p className="mb-0 small">
-            Tucuman Bares &mdash; Prueba Tecnica &copy; {new Date().getFullYear()}
+            Bares Tucuman &mdash; Prueba Tecnica &mdash; Pablo Francisco Gómez Rivera &copy; {new Date().getFullYear()}
           </p>
         </div>
       </footer>
@@ -213,7 +231,13 @@ function App() {
         onSave={handleSaveBar}
         saving={saving}
       />
-
+      <DeleteConfirmModal
+        show={showDeleteModal}
+        bar={barToDelete}
+        onClose={() => { setShowDeleteModal(false); setBarToDelete(null); }}
+        onConfirm={confirmDelete}
+        deleting={deleting}
+      />
       <LogsModal
         show={showLogsModal}
         onClose={() => setShowLogsModal(false)}

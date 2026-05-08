@@ -13,11 +13,10 @@ export default function Dashboard({ stats, totalBares, lastSync, loading }) {
     <section className="dashboard-section" id="dashboard">
       <div className="container-fluid px-4">
         <div className="row g-4">
-          {/* KPI Cards */}
           <div className="col-lg-5">
             <div className="row g-3">
               <div className="col-6">
-                <div className="kpi-card" id="kpi-total">
+                <div className="kpi-card h-100 d-flex flex-column justify-content-center align-items-center" id="kpi-total">
                   <div className="kpi-icon-wrap">
                     <FiDatabase size={20} />
                   </div>
@@ -28,7 +27,7 @@ export default function Dashboard({ stats, totalBares, lastSync, loading }) {
                 </div>
               </div>
               <div className="col-6">
-                <div className="kpi-card" id="kpi-categories">
+                <div className="kpi-card h-100 d-flex flex-column justify-content-center align-items-center" id="kpi-categories">
                   <div className="kpi-icon-wrap kpi-icon-blue">
                     <FiBarChart2 size={20} />
                   </div>
@@ -57,7 +56,6 @@ export default function Dashboard({ stats, totalBares, lastSync, loading }) {
             </div>
           </div>
 
-          {/* Chart */}
           <div className="col-lg-7">
             <div className="chart-card" id="chart-categorias">
               <h6 className="chart-title">
@@ -100,7 +98,6 @@ export default function Dashboard({ stats, totalBares, lastSync, loading }) {
                   </PieChart>
                 </ResponsiveContainer>
               )}
-              {/* Legend */}
               {!loading && chartData.length > 0 && (
                 <div className="chart-legend">
                   {chartData.map((item, i) => (
