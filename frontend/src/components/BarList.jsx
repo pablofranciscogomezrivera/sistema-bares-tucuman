@@ -1,7 +1,7 @@
 import BarCard from './BarCard';
 import { FiChevronLeft, FiChevronRight, FiInbox } from 'react-icons/fi';
 
-export default function BarList({ bares, page, totalPages, onPageChange, loading }) {
+export default function BarList({ bares, page, totalPages, onPageChange, onEdit, onDelete, loading }) {
   if (loading) {
     return (
       <div id="bar-list-loading">
@@ -29,8 +29,8 @@ export default function BarList({ bares, page, totalPages, onPageChange, loading
     return (
       <div className="text-center py-5" id="no-results">
         <FiInbox size={48} className="empty-icon mb-3" />
-        <h5 className="text-white">No se encontraron bares</h5>
-        <p className="text-secondary">No hay datos disponibles.</p>
+        <h5>No se encontraron bares</h5>
+        <p className="text-secondary">Intenta cambiar los filtros o agrega uno nuevo.</p>
       </div>
     );
   }
@@ -38,7 +38,7 @@ export default function BarList({ bares, page, totalPages, onPageChange, loading
   return (
     <div id="bar-list">
       {bares.map((bar) => (
-        <BarCard key={bar.id} bar={bar} />
+        <BarCard key={bar.id} bar={bar} onEdit={onEdit} onDelete={onDelete} />
       ))}
 
       {totalPages > 1 && (
